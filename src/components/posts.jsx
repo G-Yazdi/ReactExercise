@@ -15,10 +15,13 @@ const useStyles = (theme) => ({
 
 class Posts extends Component {
   state = {
-    posts: getPosts(),
+    posts: [],
     singleBlogMode: false,
     post: null,
   };
+  componentDidMount() {
+    this.setState({ posts: getPosts() });
+  }
 
   handleReadMore = (post) => {
     this.setState({ post, singleBlogMode: true });

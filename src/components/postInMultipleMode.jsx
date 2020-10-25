@@ -50,6 +50,7 @@ const PostInMultipleMode = (props) => {
         title={formatText(post.title, 49)}
         subheader="September 14, 2016"
       />
+
       <CardMedia
         className={classes.media}
         image={require("../fakePostImages/" + post.cover).default}
