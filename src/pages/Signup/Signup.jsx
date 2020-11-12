@@ -1,6 +1,6 @@
 import React from "react";
 import { toast } from "react-toastify";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import Avatar from "@material-ui/core/Avatar";
 import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
@@ -9,50 +9,54 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Button from "components/Button";
-import { signup } from "services";
+import { useAuth } from "providers/auth";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   paper: {
     marginTop: theme.spacing(8),
     display: "flex",
     flexDirection: "column",
-    alignItems: "center",
+    alignItems: "center"
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
+    backgroundColor: theme.palette.secondary.main
   },
   form: {
     width: "100%", // Fix IE 11 issue.
-    marginTop: theme.spacing(1),
+    marginTop: theme.spacing(1)
   },
   submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
+    margin: theme.spacing(3, 0, 2)
+  }
 }));
 
-export default function Signup(props) {
+export default function SignIn() {
   const classes = useStyles();
+  const history = useHistory();
+  const { signUp } = useAuth();
   const [state, setState] = React.useState({
     name: "",
     email: "",
-    password: "",
+    password: ""
   });
   const [loading, setLoading] = React.useState(false);
 
-  const handleChange = (e) => {
+  const handleChange = e => {
     const { name, value } = e.target;
-    setState((s) => ({ ...s, [name]: value }));
+    setState(st => ({ ...st, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = e => {
     e.preventDefault();
     setLoading(true);
     const { name, email, password } = state;
-    signup(email, password, name)
-      .catch((error) => toast.error(error.message))
-      .then(() => props.history.replace("/"))
-      .finally(() => setLoading(false));
+    signUp(email, password, name)
+      .then(() => history.replace("/"))
+      .catch(error => {
+        setLoading(false);
+        toast.error(error.message);
+      });
   };
 
   return (
@@ -66,14 +70,13 @@ export default function Signup(props) {
         </Typography>
         <form className={classes.form} noValidate>
           <TextField
+            autoComplete="name"
+            name="name"
             variant="outlined"
-            margin="normal"
             required
             fullWidth
             id="name"
             label="Full Name"
-            name="name"
-            autoComplete="name"
             autoFocus
             value={state.name}
             onChange={handleChange}
@@ -109,10 +112,10 @@ export default function Signup(props) {
             variant="contained"
             color="primary"
             className={classes.submit}
-            onClick={handleSubmit}
             loading={loading}
+            onClick={handleSubmit}
           >
-            Sign Up
+            Sign Un
           </Button>
           <Grid container>
             <Grid item>

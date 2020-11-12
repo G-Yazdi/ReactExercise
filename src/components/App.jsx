@@ -1,19 +1,18 @@
-import React, { useContext } from "react";
+import React from "react";
 import { ToastContainer } from "react-toastify";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import CssBaseline from "@material-ui/core/CssBaseline";
+import { AuthProvider } from "providers/auth";
 import Signin from "pages/Signin";
 import Signup from "pages/Signup";
-import Main from "./Main";
-import { UserContext } from "provider/AuthProvider";
+import Main from "components/Main";
 import "react-toastify/dist/ReactToastify.css";
 
 export default function App() {
-  const user = useContext(UserContext);
-  console.log("userr", user);
   return (
-    <React.Fragment>
+    <AuthProvider>
       <CssBaseline />
+      <ToastContainer />
       <Router>
         <Switch>
           <Route exact path="/signin" component={Signin} />
@@ -21,7 +20,6 @@ export default function App() {
           <Route component={Main} />
         </Switch>
       </Router>
-      <ToastContainer />
-    </React.Fragment>
+    </AuthProvider>
   );
 }
